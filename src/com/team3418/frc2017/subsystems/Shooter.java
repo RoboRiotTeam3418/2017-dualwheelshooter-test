@@ -31,8 +31,10 @@ public class Shooter extends Subsystem {
 		mLeftShooterTalon.setPID(Constants.kFlywheelKp, Constants.kFlywheelKi, Constants.kFlywheelKd, Constants.kFlywheelKf,
                 Constants.kFlywheelIZone, Constants.kFlywheelRampRate, 0);
 		mLeftShooterTalon.setProfile(0);
-		mLeftShooterTalon.reverseSensor(false);
-		mLeftShooterTalon.reverseOutput(true);
+		//mLeftShooterTalon.reverseSensor(false);
+		//mLeftShooterTalon.reverseOutput(true);
+		mLeftShooterTalon.setInverted(true);
+		
 		mLeftShooterTalon.setVoltageRampRate(0);
 		mLeftShooterTalon.enableBrakeMode(false);
 		mLeftShooterTalon.clearStickyFaults();
@@ -50,8 +52,10 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.setPID(Constants.kFlywheelKp, Constants.kFlywheelKi, Constants.kFlywheelKd, Constants.kFlywheelKf,
                 Constants.kFlywheelIZone, Constants.kFlywheelRampRate, 0);
 		mRightShooterTalon.setProfile(0);
-		mRightShooterTalon.reverseSensor(true);
-		mRightShooterTalon.reverseOutput(false);
+		//mRightShooterTalon.reverseSensor(true);
+		//mRightShooterTalon.reverseOutput(false);
+		mRightShooterTalon.setInverted(false);
+		
 		mRightShooterTalon.setVoltageRampRate(0);
 		mRightShooterTalon.enableBrakeMode(false);
 		mRightShooterTalon.clearStickyFaults();
@@ -60,7 +64,7 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.configPeakOutputVoltage(+12.0f, -.0f);
 		mRightShooterTalon.setAllowableClosedLoopErr(Constants.kFlywheelAllowableError);		
 		
-		mTargetRpm = 1910;
+		mTargetRpm = 1900;
 		}
     
     public enum ShooterReadyState {
