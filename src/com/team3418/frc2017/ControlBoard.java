@@ -77,6 +77,14 @@ public class ControlBoard {
     	return mDriverStick.getRawButton(3);
     }
     
+    public boolean increaseFeederSpeedButton(){
+    	return mDriverStick.getRawButton(6);
+    }
+    
+    public boolean decreaseFeederSpeedButton(){
+    	return mDriverStick.getRawButton(5);
+    }
+    
     public boolean spoolShooter(){
     	return mDriverStick.getRawButton(4);
     }
@@ -88,6 +96,6 @@ public class ControlBoard {
     
     public double getRightShooterSpeed(){
     	return mDriverStick.getRawAxis(3);
-    }	
+    }
     
 }

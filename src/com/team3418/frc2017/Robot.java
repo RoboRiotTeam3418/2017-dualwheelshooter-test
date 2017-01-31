@@ -70,7 +70,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
     	//set states of subsystems depending on operator controls or the state of other subsystems
-    	    	
+    	
+    	//shooter setpoint logic
     	if(mControls.decreaseShooterSetpointButton()){
     		if (mShooter.getTargetRpm() > 0){
         		mShooter.setTargetRpm(mShooter.getTargetRpm() - 10);
@@ -78,16 +79,32 @@ public class Robot extends IterativeRobot {
     	} else if(mControls.increaseShooterSetpointButton()){
     		mShooter.setTargetRpm(mShooter.getTargetRpm() + 10);
     	}
+    	//
     	
     	
+    	//shooter feeder speed logic
+       	if(mControls.decreaseFeederSpeedButton()){
+    		if (mShooter.getTargetFeederSpeed() > 0){
+        		mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() - .1);
+    		}
+    	} else if(mControls.increaseFeederSpeedButton()){
+    		if (mShooter.getTargetFeederSpeed() < 1){
+    			mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() + .1);
+    		}
+    	}
+       	//
+    	
+    	//shooter spool logic
     	if(mControls.spoolShooter()){
     		mShooter.setRpm(mShooter.getTargetRpm());
     	} else if (mControls.getLeftShooterSpeed() > 0 || mControls.getRightShooterSpeed() > 0) {
     		mShooter.setLeftOpenLoop(mControls.getLeftShooterSpeed());
     		mShooter.setRightOpenLoop(mControls.getRightShooterSpeed());
+    		mShooter.setFeederSpeed(mShooter.getTargetFeederSpeed());
     	} else {
     		mShooter.stop();
     	}
+    	//
     	
     	
     	

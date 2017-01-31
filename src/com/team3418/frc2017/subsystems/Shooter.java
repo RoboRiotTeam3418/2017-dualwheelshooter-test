@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.team3418.frc2017.Constants;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem {
@@ -17,13 +18,18 @@ public class Shooter extends Subsystem {
     
     CANTalon mLeftShooterTalon;
 	CANTalon mRightShooterTalon;
+	VictorSP mFeederVictorSP;
     
     public Shooter() {
     	//initialize shooter hardware settings
 		System.out.println("Shooter Initialized");
 		
-		//Left Talon Motor Controller
+		//Feeder Motor Controller
+		mFeederVictorSP = new VictorSP(2);
+		mFeederVictorSP.setInverted(false);
 		
+		
+		//Left Talon Motor Controller
 		mLeftShooterTalon = new CANTalon(Constants.kShooterLeftId);			
 		mLeftShooterTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		mLeftShooterTalon.changeControlMode(TalonControlMode.PercentVbus);
@@ -65,6 +71,7 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.setAllowableClosedLoopErr(Constants.kFlywheelAllowableError);		
 		
 		mTargetRpm = 1900;
+		mTargetFeederSpeed = 0;
 		}
     
     public enum ShooterReadyState {
@@ -74,6 +81,7 @@ public class Shooter extends Subsystem {
     
     //
     private double mTargetRpm;
+    private double mTargetFeederSpeed;
        
     public void setTargetRpm(double rpm){
     	mTargetRpm = rpm;
@@ -81,6 +89,14 @@ public class Shooter extends Subsystem {
     
     public double getTargetRpm(){
     	return mTargetRpm;
+    }
+    
+    public void setTargetFeederSpeed(double speed){
+    	mTargetFeederSpeed = speed;
+    }
+    
+    public double getTargetFeederSpeed(){
+    	return mTargetFeederSpeed;
     }
     
     //
@@ -162,9 +178,19 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.set(speed);
 	}
 	
+	public void setFeederSpeed(double speed){
+		if (bothIsOnTarget()){
+			mFeederVictorSP.set(speed);
+		}
+		else{
+			mFeederVictorSP.set(0);
+		}
+	}
+	
 	public void stop(){
 		setLeftOpenLoop(0);
 		setRightOpenLoop(0);
+		setFeederSpeed(0);
 	}
 	//
 	
