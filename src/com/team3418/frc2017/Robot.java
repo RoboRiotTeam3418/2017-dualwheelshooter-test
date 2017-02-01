@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot {
     // Subsystems
-	Shooter mShooter = new Shooter(); 
+	Shooter mShooter = Shooter.getInstance();
 	
     // Other parts of the robot
     ControlBoard mControls = ControlBoard.getInstance();
     //RobotDrive mDrive = new RobotDrive(Constants.kLeftMotorPWMID, Constants.kRightMotorPWMID);
+    
     
     
     
@@ -92,6 +93,12 @@ public class Robot extends IterativeRobot {
     			mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() + .1);
     		}
     	}
+       	
+       	if (mControls.startFeeder()){
+       		mShooter.setFeederSpeed(.5);
+       	} else {
+       		mShooter.setFeederSpeed(0);
+       	}
        	//
     	
     	//shooter spool logic
@@ -100,7 +107,6 @@ public class Robot extends IterativeRobot {
     	} else if (mControls.getLeftShooterSpeed() > 0 || mControls.getRightShooterSpeed() > 0) {
     		mShooter.setLeftOpenLoop(mControls.getLeftShooterSpeed());
     		mShooter.setRightOpenLoop(mControls.getRightShooterSpeed());
-    		mShooter.setFeederSpeed(mShooter.getTargetFeederSpeed());
     	} else {
     		mShooter.stop();
     	}

@@ -65,7 +65,9 @@ public class ControlBoard {
     
     // DRIVER CONTROLS (mDriverStick)
     
-    
+    public boolean startFeeder() {
+    	return mDriverStick.getRawButton(1);
+    }
     
     
     
