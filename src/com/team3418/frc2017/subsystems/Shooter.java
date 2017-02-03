@@ -20,14 +20,14 @@ public class Shooter extends Subsystem {
     
     CANTalon mLeftShooterTalon;
 	CANTalon mRightShooterTalon;
-	Talon mFeederVictorSP;
+	VictorSP mFeederVictorSP;
     
     public Shooter() {
     	//initialize shooter hardware settings
 		System.out.println("Shooter Initialized");
 		
 		//Feeder Motor Controller
-		mFeederVictorSP = new Talon(4);		
+		mFeederVictorSP = new VictorSP(0);
 		
 		//Left Talon Motor Controller
 		mLeftShooterTalon = new CANTalon(Constants.kShooterLeftId);			
@@ -69,7 +69,7 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.setAllowableClosedLoopErr(Constants.kFlywheelAllowableError);		
 		
 		mTargetRpm = 1900;
-		mTargetFeederSpeed = .2;
+		mTargetFeederSpeed = -.5;
 		}
     
     public enum ShooterReadyState {
@@ -177,13 +177,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void setFeederSpeed(double speed){
-		//if (bothIsOnTarget()){
-		System.out.println("feeder set" + speed);
-			mFeederVictorSP.setSpeed(speed);
-		//}
-		//else{
-		//	mFeederVictorSP.set(0);
-		//}
+		 mFeederVictorSP.set(speed);
 	}
 	
 	public void stop(){

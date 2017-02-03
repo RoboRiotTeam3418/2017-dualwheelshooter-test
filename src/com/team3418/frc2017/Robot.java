@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
     	//set states of subsystems depending on operator controls or the state of other subsystems
     	
     	//shooter setpoint logic
-    	if(mControls.decreaseShooterSetpointButton()){
+    	if (mControls.decreaseShooterSetpointButton()){
     		if (mShooter.getTargetRpm() > 0){
         		mShooter.setTargetRpm(mShooter.getTargetRpm() - 10);
     		}
@@ -85,17 +85,21 @@ public class Robot extends IterativeRobot {
     	
     	//shooter feeder speed logic
        	if(mControls.decreaseFeederSpeedButton()){
-    		if (mShooter.getTargetFeederSpeed() > 0){
-        		mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() - .1);
+    		if (mShooter.getTargetFeederSpeed() > -1){
+        		mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() - .10);
+    		} else {
+    			mShooter.setTargetFeederSpeed(-1);
     		}
     	} else if(mControls.increaseFeederSpeedButton()){
     		if (mShooter.getTargetFeederSpeed() < 1){
-    			mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() + .1);
+    			mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() + .10);
+    		} else {
+    			mShooter.setTargetFeederSpeed(1);
     		}
     	}
        	
        	if (mControls.startFeeder()){
-       		mShooter.setFeederSpeed(.5);
+       		mShooter.setFeederSpeed(mShooter.getTargetFeederSpeed());
        	} else {
        		mShooter.setFeederSpeed(0);
        	}
