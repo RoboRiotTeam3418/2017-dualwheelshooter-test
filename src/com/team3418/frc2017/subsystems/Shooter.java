@@ -68,7 +68,7 @@ public class Shooter extends Subsystem {
 		mRightShooterTalon.configPeakOutputVoltage(+0.0f, -12.0f);
 		mRightShooterTalon.setAllowableClosedLoopErr(Constants.kFlywheelAllowableError);		
 		
-		mTargetRpm = 1900;
+		mTargetRpm = 1500;
 		mTargetFeederSpeed = -.5;
 		}
     
