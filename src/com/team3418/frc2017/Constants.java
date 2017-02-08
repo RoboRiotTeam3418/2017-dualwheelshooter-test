@@ -28,6 +28,7 @@ public class Constants {
     //CAN
     public static int kShooterLeftId = 0;
     public static int kShooterRightId = 1;
+    public static int kFeederId = 2;
     
  // Flywheel constants
     public static double kFlywheelOnTargetTolerance = 100.0;
@@ -42,4 +43,12 @@ public class Constants {
     public static double kFlywheelRampRate = 0;
     public static int kFlywheelAllowableError = 0;
     
+    //PID gains for feeder 
+    public static double kFeederKp = 0.1;
+    public static double kFeederKi = 0.0;
+    public static double kFeederKd = 0.0;
+    public static double kFeederKf = 0.0;
+    public static int kFeederIZone = (int) (1023.0 / kFlywheelKp);
+    public static double kFeederRampRate = 0;
+    public static int kFeederAllowableError = 0;
 }

@@ -17,11 +17,6 @@ public class Robot extends IterativeRobot {
     ControlBoard mControls = ControlBoard.getInstance();
     //RobotDrive mDrive = new RobotDrive(Constants.kLeftMotorPWMID, Constants.kRightMotorPWMID);
     
-    boolean mFeederOnce = false;
-    boolean mShooterOnce = false;
-    double mFeederSpeed = 0;
-    double mShooterRpm = 0;
-    
     
     
     
@@ -32,7 +27,8 @@ public class Robot extends IterativeRobot {
     
     
     private void stopAllSubsystems(){
-    	mShooter.stop();
+    	mShooter.stopShooter();
+    	mShooter.stopFeeder();
 	}
     
     private void updateAllSubsystems() {
@@ -43,8 +39,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
     	//set initial wanted states for all subsystems
-    	SmartDashboard.putNumber("FeederSpeed", 0);
-    	SmartDashboard.putNumber("ShooterRpm", 0);
     	
 
     	stopAllSubsystems();
@@ -84,11 +78,11 @@ public class Robot extends IterativeRobot {
     	
     	//shooter setpoint logic
     	if (mControls.decreaseShooterSetpointButton()){
-    		if (mShooter.getTargetRpm() > 0){
-        		mShooter.setTargetRpm(mShooter.getTargetRpm() - 10);
+    		if (mShooter.getTargetShooterRpm() > 0){
+        		mShooter.setTargetShooterRpm(mShooter.getTargetShooterRpm() - 10);
     		}
     	} else if (mControls.increaseShooterSetpointButton()){
-    		mShooter.setTargetRpm(mShooter.getTargetRpm() + 10);
+    		mShooter.setTargetShooterRpm(mShooter.getTargetShooterRpm() + 10);
     	}
     	//
     	
@@ -97,21 +91,15 @@ public class Robot extends IterativeRobot {
     	//shooter feeder speed logic
     	
        	if (mControls.decreaseFeederSpeedButton()){
-    		if (mShooter.getTargetFeederSpeed() > -1){
-        		mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() - .10);
-    		} else {
-    			mShooter.setTargetFeederSpeed(-1);
+    		if (mShooter.getTargetFeederRpm() > 0){
+        		mShooter.setTargetFeederRpm(mShooter.getTargetFeederRpm() - 1);
     		}
     	} else if (mControls.increaseFeederSpeedButton()){
-    		if (mShooter.getTargetFeederSpeed() < 1){
-    			mShooter.setTargetFeederSpeed(mShooter.getTargetFeederSpeed() + .10);
-    		} else {
-    			mShooter.setTargetFeederSpeed(1);
-    		}
+    			mShooter.setTargetFeederRpm(mShooter.getTargetFeederRpm() + 1);
     	}
     	
     	
-       	
+       	/*
        	if (mControls.startFeeder()){
        		mShooter.setFeederSpeed(mShooter.getTargetFeederSpeed());
        	} else {
@@ -129,7 +117,17 @@ public class Robot extends IterativeRobot {
     	} else {
     		mShooter.stop();
     	}
-    	//
+    	*/
+    	
+    	if (mControls.spoolShooter()){
+    		mShooter.setShooterRpm(mShooter.getTargetShooterRpm());
+       		mShooter.setFeederRpm(mShooter.getTargetFeederRpm());
+    	}
+    	
+    	if (mControls.startFeeder()){
+       		mShooter.stopShooter();
+    		mShooter.stopFeeder();
+    	}
     	
     	    	
 
